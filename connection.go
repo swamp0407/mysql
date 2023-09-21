@@ -300,6 +300,21 @@ func (mc *mysqlConn) interpolateParams(query string, args []driver.Value) (strin
 	return string(buf), nil
 }
 
+func NewmysqlConn() *mysqlConn {
+	mc := &mysqlConn{
+		buf:              newBuffer(nil),
+		maxAllowedPacket: maxPacketSize,
+		cfg: &Config{
+			InterpolateParams: true,
+		},
+	}
+	return mc
+}
+
+func (mc *mysqlConn) InterpolateParams(query string, args []driver.Value) (string, error) {
+	return mc.interpolateParams(query, args)
+}
+
 func (mc *mysqlConn) Exec(query string, args []driver.Value) (driver.Result, error) {
 	if mc.closed.Load() {
 		mc.cfg.Logger.Print(ErrInvalidConn)
