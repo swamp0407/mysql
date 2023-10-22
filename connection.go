@@ -306,6 +306,7 @@ func NewmysqlConn() *mysqlConn {
 		maxAllowedPacket: maxPacketSize,
 		cfg: &Config{
 			InterpolateParams: true,
+			Loc:               time.UTC,
 		},
 	}
 	return mc
